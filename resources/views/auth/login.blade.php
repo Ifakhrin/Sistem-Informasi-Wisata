@@ -375,7 +375,7 @@
                 <div class="auth-header">
                     <h2>Sign In</h2>
                     <p>
-                        Enter your email and password to continue exploring Indonesian destinations.
+                        Enter your username or email and password to continue.
                     </p>
                 </div>
 
@@ -399,17 +399,17 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="email" class="form-label">Email Address</label>
+                        <label for="login" class="form-label">Username / Email</label>
                         <input
-                            id="email"
+                            id="login"
                             class="form-control"
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
+                            type="text"
+                            name="login"
+                            value="{{ old('login') }}"
                             required
                             autofocus
                             autocomplete="username"
-                            placeholder="Enter your email"
+                            placeholder="Enter your username or email"
                         >
                     </div>
 

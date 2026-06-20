@@ -7,6 +7,8 @@ use App\Http\Controllers\SavedPlanController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AiAssistantController;
+use App\Http\Controllers\AdminDestinationController;
+use App\Http\Controllers\AdminImportController;
 use App\Models\Destinasi;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +46,56 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/ai-assistant', [AiAssistantController::class, 'index'])->name('ai-assistant.index');
     Route::post('/ai-assistant/ask', [AiAssistantController::class, 'ask'])->name('ai-assistant.ask');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('admin')->middleware('admin')->group(function () {
+        Route::get('/', function () {
+            $totalDestinations = Destinasi::count();
+
+            $totalCities = Destinasi::distinct('kota')
+                ->count('kota');
+
+            $totalCategories = Destinasi::distinct('kategori')
+                ->count('kategori');
+
+            $averageRating = Destinasi::avg('rating');
+
+            return view('admin.dashboard', compact(
+                'totalDestinations',
+                'totalCities',
+                'totalCategories',
+                'averageRating'
+            ));
+        })->name('admin.dashboard');
+
+        Route::get('/destinations', [AdminDestinationController::class, 'index'])
+            ->name('destinations.index');
+
+        Route::get('/destinations/create', [AdminDestinationController::class, 'create'])
+            ->name('destinations.create');
+
+        Route::post('/destinations', [AdminDestinationController::class, 'store'])
+            ->name('destinations.store');
+
+        Route::get('/destinations/{id}/edit', [AdminDestinationController::class, 'edit'])
+            ->name('destinations.edit');
+
+        Route::put('/destinations/{id}', [AdminDestinationController::class, 'update'])
+            ->name('destinations.update');
+
+        Route::delete('/destinations/{id}', [AdminDestinationController::class, 'destroy'])
+            ->name('destinations.destroy');
+
+        Route::get('/import', [AdminImportController::class, 'index'])
+            ->name('import.index');
+
+        Route::post('/import', [AdminImportController::class, 'store'])
+            ->name('import.store');
+    });
 });
 
 require __DIR__.'/auth.php';

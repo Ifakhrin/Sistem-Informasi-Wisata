@@ -122,7 +122,7 @@
                                         class="form-control @error('harga_tiket') is-invalid @enderror"
                                         value="{{ old('harga_tiket', $destination->harga_tiket) }}"
                                         min="0"
-                                        step="1000"
+                                        step="1"
                                         required
                                     >
 

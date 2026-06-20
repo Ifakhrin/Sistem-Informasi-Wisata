@@ -121,7 +121,7 @@
                                     class="form-control @error('harga_tiket') is-invalid @enderror"
                                     placeholder="Contoh: 50000"
                                     min="0"
-                                    step="1000"
+                                    step="1"
                                     value="{{ old('harga_tiket', 0) }}"
                                     required
                                 >

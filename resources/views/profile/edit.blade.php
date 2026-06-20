@@ -24,9 +24,39 @@
                 <!-- Left Profile Card -->
                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 24px; padding: 32px; text-align: center;">
 
-                    <div style="width: 112px; height: 112px; border-radius: 999px; background: linear-gradient(135deg, #2563eb, #06b6d4); color: white; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; margin: 0 auto 18px; box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);">
-                        {{ $initials }}
-                    </div>
+                    @if ($user->profile_photo)
+                        <img
+                            src="{{ asset('storage/' . $user->profile_photo) }}"
+                            alt="Profile Photo"
+                            style="
+                                width: 112px;
+                                height: 112px;
+                                border-radius: 999px;
+                                object-fit: cover;
+                                border: 4px solid #ffffff;
+                                margin: 0 auto 18px;
+                                display: block;
+                                box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+                            "
+                        >
+                    @else
+                        <div style="
+                            width: 112px;
+                            height: 112px;
+                            border-radius: 999px;
+                            background: linear-gradient(135deg, #2563eb, #06b6d4);
+                            color: white;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 34px;
+                            font-weight: 800;
+                            margin: 0 auto 18px;
+                            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+                        ">
+                            {{ $initials }}
+                        </div>
+                    @endif
 
                     <h3 style="font-size: 22px; font-weight: 900; color: #0f172a; margin: 0 0 6px;">
                         {{ $user->name }}
@@ -37,7 +67,7 @@
                     </p>
 
                     <span style="display: inline-block; background: linear-gradient(135deg, #2563eb, #06b6d4); color: white; padding: 7px 13px; border-radius: 999px; font-size: 12px; font-weight: 800; margin-bottom: 28px;">
-                        Traveler
+                        {{ $user->role === 'admin' ? 'Administrator' : 'Traveler' }}
                     </span>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;">

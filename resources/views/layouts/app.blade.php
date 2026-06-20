@@ -152,16 +152,30 @@
             z-index: 30;
         }
 
-        .notification {
+        .notification-wrapper {
             position: relative;
+        }
+
+        .notification-button {
+            position: relative;
+            border: none;
+            background: transparent;
             color: #0f172a;
             font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 999px;
+            transition: 0.2s ease;
+        }
+
+        .notification-button:hover {
+            background: #f1f5f9;
         }
 
         .notification-badge {
             position: absolute;
-            top: -9px;
-            right: -8px;
+            top: -2px;
+            right: -1px;
             width: 18px;
             height: 18px;
             border-radius: 999px;
@@ -173,6 +187,111 @@
             align-items: center;
             justify-content: center;
         }
+
+        .notification-dropdown {
+            position: absolute;
+            top: 48px;
+            right: 0;
+            width: 320px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            box-shadow: 0 22px 50px rgba(15, 23, 42, 0.16);
+            display: none;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-header h4 {
+            font-size: 15px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .notification-header span {
+            font-size: 12px;
+            font-weight: 800;
+            color: #10b981;
+        }
+
+        .notification-list {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s ease;
+        }
+
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            background: #e0f7fb;
+            color: #0891b2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-content strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 3px;
+        }
+
+        .notification-content p {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* .notification-footer {
+            padding: 12px 18px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .notification-footer a {
+            font-size: 13px;
+            color: #2563eb;
+            font-weight: 900;
+        } */
 
         .user-avatar {
             width: 40px;
@@ -188,15 +307,15 @@
             box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
         }
 
-.page-content {
-    padding: 30px 42px 48px 56px;
-}
+        .page-content {
+            padding: 30px 42px 48px 56px;
+        }
 
-.page-heading {
-    margin-bottom: 24px;
-    padding-left: 56px !important;
-    padding-right: 42px !important;
-}
+        .page-heading {
+            margin-bottom: 24px;
+            padding-left: 56px !important;
+            padding-right: 42px !important;
+        }
 
         .mobile-brand {
             display: none;
@@ -329,13 +448,68 @@
 
             <!-- Topbar -->
             <header class="topbar">
-                <div class="notification">
-                    <i class="bi bi-bell"></i>
-                    <span class="notification-badge">3</span>
-                </div>
+                <div class="notification-wrapper">
+                    <button type="button" class="notification-button" onclick="toggleNotifications(event)">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
 
-                <a href="{{ route('profile.edit') }}" class="user-avatar">
-                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <div class="notification-header">
+                            <h4>Notifications</h4>
+                            <span>3 New</span>
+                        </div>
+
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="bi bi-stars"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <strong>AI Recommendation Ready</strong>
+                                    <p>Your personalized destination recommendations are ready to explore.</p>
+                                    <div class="notification-time">Just now</div>
+                                </div>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="bi bi-heart"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <strong>Saved Plan Updated</strong>
+                                    <p>Your saved travel plan has been updated successfully.</p>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <strong>New Destination Available</strong>
+                                    <p>New tourism destinations have been added to the Explore page.</p>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- <div class="notification-footer">
+                            <a href="{{ route('dashboard') }}">View Activity</a>
+                        </div> --}}
+                    </div>
+                </div>
+                <a href="{{ route('profile.edit') }}" class="user-avatar" style="overflow: hidden;">
+                    @if (auth()->user()->profile_photo)
+                        <img
+                            src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
+                            alt="Profile Photo"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+                        >
+                    @else
+                        {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                    @endif
                 </a>
             </header>
 
@@ -351,9 +525,27 @@
                 {{ $slot }}
             </main>
         </div>
-
     </div>
+        <script>
+            function toggleNotifications(event) {
+                event.stopPropagation();
 
+                const dropdown = document.getElementById('notificationDropdown');
+
+                if (dropdown) {
+                    dropdown.classList.toggle('show');
+                }
+            }
+
+            document.addEventListener('click', function (event) {
+                const dropdown = document.getElementById('notificationDropdown');
+                const wrapper = document.querySelector('.notification-wrapper');
+
+                if (dropdown && wrapper && !wrapper.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        </script>
     @stack('scripts')
 </body>
 </html>

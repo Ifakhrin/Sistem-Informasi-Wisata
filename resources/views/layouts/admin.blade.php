@@ -30,11 +30,13 @@
             font-weight: 800;
             letter-spacing: .2px;
         }
-
-        .navbar-brand i {
-            color: #38bdf8;
+        .admin-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 6px 16px rgba(56, 189, 248, 0.25);
         }
-
         .nav-link {
             font-weight: 600;
             font-size: 14px;
@@ -202,15 +204,16 @@
     @stack('styles')
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f172a;">
     <div class="container admin-container">
-
         <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">
-            <i class="bi bi-compass-fill"></i>
-            Wisata AI Admin
+            <img
+                src="{{ asset('images/logo-ai-travel.jpeg') }}"
+                alt="Travel Insight AI Logo"
+                class="admin-logo"
+            >
+            <span>Travel Insight AI Admin</span>
         </a>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>

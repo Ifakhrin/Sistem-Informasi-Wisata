@@ -1,4 +1,3 @@
-```blade id="p1h1tq"
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -527,4 +526,3 @@
     </main>
 </body>
 </html>
-```
